@@ -77,7 +77,7 @@ func (m *NestedMap) Get(path string) (interface{}, error) {
 			var exists bool
 			value, exists = value.(map[string]interface{})[key]
 			if !exists {
-				return nil, errors.New("not found")
+				return nil, ErrNotFound
 			}
 			if i >= 0 {
 				arr := value.([]interface{})
