@@ -160,7 +160,7 @@ func (m *NestedMap) Set(path string, value interface{}) error {
 	return nil
 }
 
-func (m *NestedMap) Delete(path string) {
+func (m *NestedMap) Delete(path string) error {
 	keys := make([]string, 0)
 	for _, k := range strings.Split(path, "/") {
 		if k != "" {
@@ -169,11 +169,15 @@ func (m *NestedMap) Delete(path string) {
 	}
 
 	if len(keys) > 1 {
-		m.Delete(strings.Join(keys[1:], "/"))
+		err := m.Delete(strings.Join(keys[1:], "/"))
+		if err != nil {
+			return err
+		}
 	}
 
 	delete(m.data.(map[string]interface{}), keys[0])
 
+	return nil
 }
 
 type iterator struct {
